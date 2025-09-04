@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Keyboard.ViewModel;
+namespace Keyboard;
 
-public abstract class BaseViewModel : INotifyPropertyChanged
+public abstract class NotifyPropertyChangedAbstract : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -1,5 +1,5 @@
 ﻿namespace Keyboard.ViewModel;
 
-public class MainWindowViewModel
+public class MainWindowViewModel : NotifyPropertyChangedAbstract
 {
 }
