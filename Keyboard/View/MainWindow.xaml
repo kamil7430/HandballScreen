@@ -53,6 +53,23 @@
                     
                     <!-- Lista kar -->
                 </Grid>
+                <TextBlock Text="Czasy" Foreground="White" FontSize="20" 
+                           HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <WrapPanel Grid.Column="0" HorizontalAlignment="Center">
+                        <TextBlock Text="X" Foreground="Red" FontSize="20"/>
+                        <TextBlock Text="OO" Foreground="Green" FontSize="20"/>
+                    </WrapPanel>
+                    <WrapPanel Grid.Column="1" HorizontalAlignment="Center">
+                        <TextBlock Text="X" Foreground="Red" FontSize="20"/>
+                        <TextBlock Text="OO" Foreground="Green" FontSize="20"/>
+                    </WrapPanel>
+                </Grid>
             </StackPanel>
 
             <StackPanel Grid.Column="2">
