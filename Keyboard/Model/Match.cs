@@ -40,4 +40,26 @@ public class Match : NotifyPropertyChangedAbstract
     public ObservableCollection<Suspension> HostsSuspensions = [];
 
     public ObservableCollection<Suspension> GuestsSuspensions = [];
+
+    private short _hostsTimeoutsUsed = 0;
+    public short HostsTimeoutsUsed
+    {
+        get => _hostsTimeoutsUsed;
+        set
+        {
+            _hostsTimeoutsUsed = value;
+            OnPropertyChanged(nameof(HostsTimeoutsUsed));
+        }
+    }
+
+    private short _guestsTimeoutsUsed = 0;
+    public short GuestsTimeoutsUsed
+    {
+        get => _guestsTimeoutsUsed;
+        set
+        {
+            _guestsTimeoutsUsed = value;
+            OnPropertyChanged(nameof(GuestsTimeoutsUsed));
+        }
+    }
 }
