@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Keyboard.View" 
         xmlns:viewmodel="clr-namespace:Keyboard.ViewModel" 
+        xmlns:local1="clr-namespace:Keyboard.View.Converter"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Handball Match Keyboard" Height="600" Width="1200"
         Background="#FF333333"
         FontFamily="Segoe UI">
+    <Window.Resources>
+        <local1:MilisecondsToTimeStringConverter x:Key="MilisecondsToTimeString"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,7 +40,8 @@
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Czas" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
-                <TextBlock Text="12:34.5" Foreground="White" FontSize="40"
+                <TextBlock Text="{Binding Match.TimeInMiliseconds, Converter={StaticResource MilisecondsToTimeString}}" 
+                           Foreground="White" FontSize="40"
                            HorizontalAlignment="Center"/>
                 <TextBlock Text="Wynik" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
