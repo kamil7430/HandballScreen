@@ -4,6 +4,19 @@ namespace Keyboard.Model;
 
 public class Match : NotifyPropertyChangedAbstract
 {
+    private const short MAX_TIMEOUTS = 3;
+
+    private bool _isTimeStopped = true;
+    public bool IsTimeStopped
+    {
+        get => _isTimeStopped;
+        set
+        {
+            _isTimeStopped = value;
+            OnPropertyChanged(nameof(IsTimeStopped));
+        }
+    }
+
     private long _timeInDecyseconds = 0;
     public long TimeInDecyseconds
     {
@@ -37,6 +50,9 @@ public class Match : NotifyPropertyChangedAbstract
         }
     }
 
+    public (short, short) ActualScore
+        => (HostsPoints, GuestsPoints);
+
     public ObservableCollection<Suspension> HostsSuspensions = [];
 
     public ObservableCollection<Suspension> GuestsSuspensions = [];
@@ -51,6 +67,8 @@ public class Match : NotifyPropertyChangedAbstract
             OnPropertyChanged(nameof(HostsTimeoutsUsed));
         }
     }
+    public short HostsTimeoutsLeft
+        => (short)(MAX_TIMEOUTS - HostsTimeoutsUsed);
 
     private short _guestsTimeoutsUsed = 0;
     public short GuestsTimeoutsUsed
@@ -62,4 +80,6 @@ public class Match : NotifyPropertyChangedAbstract
             OnPropertyChanged(nameof(GuestsTimeoutsUsed));
         }
     }
+    public short GuestsTimeoutsLeft
+        => (short)(MAX_TIMEOUTS - GuestsTimeoutsUsed);
 }

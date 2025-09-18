@@ -13,6 +13,24 @@
         FontFamily="Segoe UI">
     <Window.Resources>
         <local1:DecysecondsToTimeStringConverter x:Key="DecysecondsToTimeString"/>
+        <local1:ScoreToStringConverter x:Key="ScoreToString"/>
+        <local1:ShortToLetterStringConverter x:Key="ShortToLetterString"/>
+        <local1:InvertBooleanConverter x:Key="InvertBoolean"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="EnableOnTimeStop" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="IsEnabled" Value="{Binding Match.IsTimeStopped}"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="EnableOnTimeStart" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="IsEnabled" 
+                    Value="{Binding Match.IsTimeStopped, Converter={StaticResource InvertBoolean}}"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,6 +53,20 @@
                 <TextBlock Text="Gospodarze" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
                 
+                <TextBlock Text="Bramki" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Dodaj bramkę"/>
+                <Button Content="Odejmij bramkę"/>
+                <Button Content="Ustaw ręcznie" Style="{StaticResource EnableOnTimeStop}"/>
+
+                <TextBlock Text="Czasy" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Dodaj użyty czas"/>
+                <Button Content="Odejmij użyty czas"/>
+
+                <TextBlock Text="Kary" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1">
@@ -43,10 +75,24 @@
                 <TextBlock Text="{Binding Match.TimeInDecyseconds, Converter={StaticResource DecysecondsToTimeString}}" 
                            Foreground="White" FontSize="40"
                            HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0" Content="Wznów zegar" Style="{StaticResource EnableOnTimeStop}"/>
+                    <Button Grid.Column="1" Content="Syrena"/>
+                    <Button Grid.Column="2" Content="Zatrzymaj zegar" Style="{StaticResource EnableOnTimeStart}"/>
+                </Grid>
+                
                 <TextBlock Text="Wynik" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
-                <TextBlock Text="20-19" Foreground="White" FontSize="40" 
+                <TextBlock Text="{Binding Match.ActualScore, Converter={StaticResource ScoreToString}}"
+                           Foreground="White" FontSize="40" 
                            HorizontalAlignment="Center"/>
+                
                 <TextBlock Text="Kary" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
                 <Grid>
@@ -57,6 +103,7 @@
                     
                     <!-- Lista kar -->
                 </Grid>
+                
                 <TextBlock Text="Czasy" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
                 <Grid>
@@ -66,12 +113,16 @@
                     </Grid.ColumnDefinitions>
 
                     <WrapPanel Grid.Column="0" HorizontalAlignment="Center">
-                        <TextBlock Text="X" Foreground="Red" FontSize="20"/>
-                        <TextBlock Text="OO" Foreground="Green" FontSize="20"/>
+                        <TextBlock Text="{Binding Match.HostsTimeoutsUsed, Converter={StaticResource ShortToLetterString}, ConverterParameter=X}"
+                                   Foreground="Red" FontSize="20"/>
+                        <TextBlock Text="{Binding Match.HostsTimeoutsLeft, Converter={StaticResource ShortToLetterString}, ConverterParameter=O}"
+                                   Foreground="Green" FontSize="20"/>
                     </WrapPanel>
                     <WrapPanel Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBlock Text="X" Foreground="Red" FontSize="20"/>
-                        <TextBlock Text="OO" Foreground="Green" FontSize="20"/>
+                        <TextBlock Text="{Binding Match.GuestsTimeoutsUsed, Converter={StaticResource ShortToLetterString}, ConverterParameter=X}"
+                                   Foreground="Red" FontSize="20"/>
+                        <TextBlock Text="{Binding Match.GuestsTimeoutsLeft, Converter={StaticResource ShortToLetterString}, ConverterParameter=O}"
+                                   Foreground="Green" FontSize="20"/>
                     </WrapPanel>
                 </Grid>
             </StackPanel>
@@ -79,6 +130,21 @@
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Goście" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
+                
+                <TextBlock Text="Bramki" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Dodaj bramkę"/>
+                <Button Content="Odejmij bramkę"/>
+                <Button Content="Ustaw ręcznie"  Style="{StaticResource EnableOnTimeStop}"/>
+
+                <TextBlock Text="Czasy" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Dodaj użyty czas"/>
+                <Button Content="Odejmij użyty czas"/>
+
+                <TextBlock Text="Kary" Foreground="White" FontSize="15"
+                           HorizontalAlignment="Center"/>
+                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"/>
             </StackPanel>
         </Grid>
 
