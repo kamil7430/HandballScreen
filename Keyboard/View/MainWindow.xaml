@@ -40,7 +40,7 @@
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Czas" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding Match.TimeInMiliseconds, Converter={StaticResource MilisecondsToTimeString}}" 
+                <TextBlock Text="{Binding Match.TimeInDecyseconds, Converter={StaticResource MilisecondsToTimeString}}" 
                            Foreground="White" FontSize="40"
                            HorizontalAlignment="Center"/>
                 <TextBlock Text="Wynik" Foreground="White" FontSize="20" 

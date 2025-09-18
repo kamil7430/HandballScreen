@@ -4,14 +4,14 @@ namespace Keyboard.Model;
 
 public class Match : NotifyPropertyChangedAbstract
 {
-    private long _timeInMiliseconds = 0;
-    public long TimeInMiliseconds
+    private long _timeInDecyseconds = 0;
+    public long TimeInDecyseconds
     {
-        get => _timeInMiliseconds;
+        get => _timeInDecyseconds;
         set
         {
-            _timeInMiliseconds = value;
-            OnPropertyChanged(nameof(TimeInMiliseconds));
+            _timeInDecyseconds = value;
+            OnPropertyChanged(nameof(TimeInDecyseconds));
         }
     }
 
