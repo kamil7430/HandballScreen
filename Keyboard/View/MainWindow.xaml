@@ -55,18 +55,20 @@
                 
                 <TextBlock Text="Bramki" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Dodaj bramkę"/>
-                <Button Content="Odejmij bramkę"/>
-                <Button Content="Ustaw ręcznie" Style="{StaticResource EnableOnTimeStop}"/>
+                <Button Content="Dodaj bramkę" Command="{Binding AddHostsGoalCommand}"/>
+                <Button Content="Odejmij bramkę" Command="{Binding RemoveHostsGoalCommand}"/>
+                <Button Content="Ustaw ręcznie" Style="{StaticResource EnableOnTimeStop}"
+                        Command="{Binding ManageHostsGoalsCommand}"/>
 
                 <TextBlock Text="Czasy" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Dodaj użyty czas"/>
-                <Button Content="Odejmij użyty czas"/>
+                <Button Content="Dodaj użyty czas" Command="{Binding AddUsedHostsTimeoutCommand}"/>
+                <Button Content="Odejmij użyty czas" Command="{Binding RemoveUsedHostsTimeoutCommand}"/>
 
                 <TextBlock Text="Kary" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"/>
+                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"
+                        Command="{Binding ManageHostsSuspensionsCommand}"/>
             </StackPanel>
 
             <StackPanel Grid.Column="1">
@@ -82,9 +84,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     
-                    <Button Grid.Column="0" Content="Wznów zegar" Style="{StaticResource EnableOnTimeStop}"/>
-                    <Button Grid.Column="1" Content="Syrena"/>
-                    <Button Grid.Column="2" Content="Zatrzymaj zegar" Style="{StaticResource EnableOnTimeStart}"/>
+                    <Button Grid.Column="0" Content="Wznów zegar" Style="{StaticResource EnableOnTimeStop}"
+                            Command="{Binding ResumeMatchClockCommand}"/>
+                    <Button Grid.Column="1" Content="Użyj syreny" Command="{Binding UseSoundEffectCommand}"/>
+                    <Button Grid.Column="2" Content="Zatrzymaj zegar" Style="{StaticResource EnableOnTimeStart}"
+                            Command="{Binding StopMatchClockCommand}"/>
                 </Grid>
                 
                 <TextBlock Text="Wynik" Foreground="White" FontSize="20" 
@@ -133,18 +137,20 @@
                 
                 <TextBlock Text="Bramki" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Dodaj bramkę"/>
-                <Button Content="Odejmij bramkę"/>
-                <Button Content="Ustaw ręcznie"  Style="{StaticResource EnableOnTimeStop}"/>
+                <Button Content="Dodaj bramkę" Command="{Binding AddGuestsGoalCommand}"/>
+                <Button Content="Odejmij bramkę" Command="{Binding RemoveGuestsGoalCommand}"/>
+                <Button Content="Ustaw ręcznie"  Style="{StaticResource EnableOnTimeStop}"
+                        Command="{Binding ManageGuestsGoalsCommand}"/>
 
                 <TextBlock Text="Czasy" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Dodaj użyty czas"/>
-                <Button Content="Odejmij użyty czas"/>
+                <Button Content="Dodaj użyty czas" Command="{Binding AddUsedGuestsTimeoutCommand}"/>
+                <Button Content="Odejmij użyty czas" Command="{Binding RemoveUsedGuestsTimeoutCommand}"/>
 
                 <TextBlock Text="Kary" Foreground="White" FontSize="15"
                            HorizontalAlignment="Center"/>
-                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"/>
+                <Button Content="Zarządzaj karami"  Style="{StaticResource EnableOnTimeStop}"
+                        Command="{Binding ManageGuestsSuspensionsCommand}"/>
             </StackPanel>
         </Grid>
 
