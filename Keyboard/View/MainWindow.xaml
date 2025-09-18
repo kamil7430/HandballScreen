@@ -12,7 +12,7 @@
         Background="#FF333333"
         FontFamily="Segoe UI">
     <Window.Resources>
-        <local1:MilisecondsToTimeStringConverter x:Key="MilisecondsToTimeString"/>
+        <local1:DecysecondsToTimeStringConverter x:Key="DecysecondsToTimeString"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -40,7 +40,7 @@
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Czas" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding Match.TimeInDecyseconds, Converter={StaticResource MilisecondsToTimeString}}" 
+                <TextBlock Text="{Binding Match.TimeInDecyseconds, Converter={StaticResource DecysecondsToTimeString}}" 
                            Foreground="White" FontSize="40"
                            HorizontalAlignment="Center"/>
                 <TextBlock Text="Wynik" Foreground="White" FontSize="20" 

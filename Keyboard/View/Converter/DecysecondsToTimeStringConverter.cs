@@ -3,7 +3,7 @@ using System.Windows.Data;
 
 namespace Keyboard.View.Converter;
 
-public class MilisecondsToTimeStringConverter : IValueConverter
+public class DecysecondsToTimeStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
