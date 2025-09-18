@@ -12,13 +12,13 @@ public partial class MainWindowViewModel : ObservableObject
         => !IsTimeStopped;
 
     private bool CanAddUsedHostsTimeout
-        => Match.HostsTimeoutsUsed <= 2;
+        => Match.HostsTimeoutsUsed <= Match.MaxTimeouts;
 
     private bool CanRemoveUsedHostsTimeout
         => Match.HostsTimeoutsUsed >= 1;
 
     private bool CanAddUsedGuestsTimeout
-        => Match.GuestsTimeoutsUsed <= 2;
+        => Match.GuestsTimeoutsUsed <= Match.MaxTimeouts;
 
     private bool CanRemoveUsedGuestsTimeout
         => Match.GuestsTimeoutsUsed >= 1;

@@ -4,7 +4,7 @@ namespace Keyboard.Model;
 
 public class Match : NotifyPropertyChangedAbstract
 {
-    private const short MAX_TIMEOUTS = 3;
+    public short MaxTimeouts = 3;
 
     private bool _isTimeStopped = true;
     public bool IsTimeStopped
@@ -71,7 +71,7 @@ public class Match : NotifyPropertyChangedAbstract
         }
     }
     public short HostsTimeoutsLeft
-        => (short)(MAX_TIMEOUTS - HostsTimeoutsUsed);
+        => (short)(MaxTimeouts - HostsTimeoutsUsed);
 
     private short _guestsTimeoutsUsed = 0;
     public short GuestsTimeoutsUsed
@@ -85,5 +85,5 @@ public class Match : NotifyPropertyChangedAbstract
         }
     }
     public short GuestsTimeoutsLeft
-        => (short)(MAX_TIMEOUTS - GuestsTimeoutsUsed);
+        => (short)(MaxTimeouts - GuestsTimeoutsUsed);
 }

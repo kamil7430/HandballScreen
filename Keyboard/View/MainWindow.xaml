@@ -90,18 +90,7 @@
                 <TextBlock Text="{Binding Match.ActualScore, Converter={StaticResource ScoreToString}}"
                            Foreground="White" FontSize="40" 
                            HorizontalAlignment="Center"/>
-                
-                <TextBlock Text="Kary" Foreground="White" FontSize="20" 
-                           HorizontalAlignment="Center"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <!-- Lista kar -->
-                </Grid>
-                
+
                 <TextBlock Text="Czasy" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
                 <Grid>
@@ -123,8 +112,19 @@
                                    Foreground="Green" FontSize="20"/>
                     </WrapPanel>
                 </Grid>
+                
+                <TextBlock Text="Kary" Foreground="White" FontSize="20" 
+                            HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Lista kar -->
+                </Grid>
             </StackPanel>
-
+            
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Goście" Foreground="White" FontSize="20" 
                            HorizontalAlignment="Center"/>
