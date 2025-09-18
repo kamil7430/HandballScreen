@@ -36,6 +36,7 @@ public class Match : NotifyPropertyChangedAbstract
         {
             _hostsPoints = value;
             OnPropertyChanged(nameof(HostsPoints));
+            OnPropertyChanged(nameof(ActualScore));
         }
     }
 
@@ -47,6 +48,7 @@ public class Match : NotifyPropertyChangedAbstract
         {
             _guestsPoints = value;
             OnPropertyChanged(nameof(GuestsPoints));
+            OnPropertyChanged(nameof(ActualScore));
         }
     }
 
@@ -65,6 +67,7 @@ public class Match : NotifyPropertyChangedAbstract
         {
             _hostsTimeoutsUsed = value;
             OnPropertyChanged(nameof(HostsTimeoutsUsed));
+            OnPropertyChanged(nameof(HostsTimeoutsLeft));
         }
     }
     public short HostsTimeoutsLeft
@@ -78,6 +81,7 @@ public class Match : NotifyPropertyChangedAbstract
         {
             _guestsTimeoutsUsed = value;
             OnPropertyChanged(nameof(GuestsTimeoutsUsed));
+            OnPropertyChanged(nameof(GuestsTimeoutsLeft));
         }
     }
     public short GuestsTimeoutsLeft
