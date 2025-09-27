@@ -11,13 +11,13 @@ public partial class NewMatchWindowViewModel : ObservableObject
     public string Minutes { get; set; }
     public string Seconds { get; set; }
     public string MaxTimeouts { get; set; }
-    private ICloseableWindow _window;
+    private readonly ICloseableWindow _window;
     public Match? NewMatch { get; private set; }
 
     public NewMatchWindowViewModel(Match match, ICloseableWindow window)
     {
         Minutes = (match.MaxMatchTimeInDecyseconds / 10 / 60).ToString();
-        Seconds = (match.MaxMatchTimeInDecyseconds % 60).ToString();
+        Seconds = (match.MaxMatchTimeInDecyseconds / 10 % 60).ToString();
         MaxTimeouts = match.MaxTimeouts.ToString();
         _window = window;
         NewMatch = null;
