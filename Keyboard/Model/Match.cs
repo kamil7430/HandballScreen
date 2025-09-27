@@ -2,8 +2,8 @@
 
 namespace Keyboard.Model;
 
-public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 36_000)
-    : NotifyPropertyChangedAbstract
+public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000)
+    : NotifyPropertyChangedAbstract, ICloneable
 {
     public short MaxTimeouts = maxTimeouts;
 
@@ -100,4 +100,20 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 36_000
     }
     public short GuestsTimeoutsLeft
         => (short)(MaxTimeouts - GuestsTimeoutsUsed);
+
+    public object Clone()
+        => new Match()
+        {
+            MaxTimeouts = MaxTimeouts,
+            MaxMatchTimeInDecyseconds = MaxMatchTimeInDecyseconds,
+            IsTimeStopped = IsTimeStopped,
+            TimeInDecyseconds = TimeInDecyseconds,
+            HalfNumber = HalfNumber,
+            HostsPoints = HostsPoints,
+            GuestsPoints = GuestsPoints,
+            HostsSuspensions = [.. HostsSuspensions],
+            GuestsSuspensions = [.. GuestsSuspensions],
+            HostsTimeoutsUsed = HostsTimeoutsUsed,
+            GuestsTimeoutsUsed = GuestsTimeoutsUsed
+        };
 }

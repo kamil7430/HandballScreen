@@ -64,7 +64,13 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
-    private void SetClock() { }
+    private void SetClock()
+    {
+        TimeSettingWindow window = new(Match);
+        bool result = window.ShowDialog() ?? false;
+        if (result)
+            Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+    }
 
     [RelayCommand]
     private void UseSoundEffect() { }
