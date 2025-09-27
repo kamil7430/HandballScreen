@@ -146,10 +146,20 @@
             </StackPanel>
         </Grid>
 
-        <TextBlock Grid.Row="2" Foreground="White">
-            Serwer włączony na adresie xxx.xxx.xxx.xxx:xxxxx.
-            <LineBreak/>
-            Status ekranu: Rozłączony.
-        </TextBlock>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Foreground="White">
+                Serwer włączony na adresie xxx.xxx.xxx.xxx:xxxxx.
+                <LineBreak/>
+                Status ekranu: Rozłączony.
+            </TextBlock>
+
+            <Button Grid.Column="1"
+                    Content="Nowy mecz" Command="{Binding NewMatchCommand}"/>
+        </Grid>
     </Grid>
 </Window>

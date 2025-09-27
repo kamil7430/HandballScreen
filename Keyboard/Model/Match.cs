@@ -2,9 +2,12 @@
 
 namespace Keyboard.Model;
 
-public class Match : NotifyPropertyChangedAbstract
+public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 36_000)
+    : NotifyPropertyChangedAbstract
 {
-    public short MaxTimeouts = 3;
+    public short MaxTimeouts = maxTimeouts;
+
+    public int MaxMatchTimeInDecyseconds = maxMatchTimeInDecyseconds;
 
     private bool _isTimeStopped = true;
     public bool IsTimeStopped

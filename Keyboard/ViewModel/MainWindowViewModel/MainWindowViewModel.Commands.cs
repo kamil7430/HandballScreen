@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Keyboard.View;
 
 namespace Keyboard.ViewModel;
 
@@ -12,13 +13,13 @@ public partial class MainWindowViewModel : ObservableObject
         => !IsTimeStopped;
 
     private bool CanAddUsedHostsTimeout
-        => Match.HostsTimeoutsUsed <= Match.MaxTimeouts;
+        => Match.HostsTimeoutsUsed < Match.MaxTimeouts;
 
     private bool CanRemoveUsedHostsTimeout
         => Match.HostsTimeoutsUsed >= 1;
 
     private bool CanAddUsedGuestsTimeout
-        => Match.GuestsTimeoutsUsed <= Match.MaxTimeouts;
+        => Match.GuestsTimeoutsUsed < Match.MaxTimeouts;
 
     private bool CanRemoveUsedGuestsTimeout
         => Match.GuestsTimeoutsUsed >= 1;
@@ -81,6 +82,15 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageGuestsSuspensions() { }
 
+    [RelayCommand(CanExecute = nameof(IsTimeStopped))]
+    private void NewMatch()
+    {
+        NewMatchWindow window = new(Match);
+        bool result = window.ShowDialog() ?? false;
+        if (result)
+            Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+    }
+
     private void NotifyCommandsCanExecute()
     {
         ManageHostsGoalsCommand.NotifyCanExecuteChanged();
@@ -94,5 +104,6 @@ public partial class MainWindowViewModel : ObservableObject
         AddUsedGuestsTimeoutCommand.NotifyCanExecuteChanged();
         RemoveUsedGuestsTimeoutCommand.NotifyCanExecuteChanged();
         ManageGuestsSuspensionsCommand.NotifyCanExecuteChanged();
+        NewMatchCommand.NotifyCanExecuteChanged();
     }
 }
