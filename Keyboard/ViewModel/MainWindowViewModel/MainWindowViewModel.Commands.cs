@@ -12,6 +12,9 @@ public partial class MainWindowViewModel : ObservableObject
     private bool IsTimeStarted
         => !IsTimeStopped;
 
+    private bool CanTimeBeResumed
+        => IsTimeStopped && Match.MaxMatchTimeInDecyseconds * 2 > Match.TimeInDecyseconds;
+
     private bool CanAddUsedHostsTimeout
         => Match.HostsTimeoutsUsed < Match.MaxTimeouts;
 
@@ -46,13 +49,19 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageHostsSuspensions() { }
 
-    [RelayCommand(CanExecute = nameof(IsTimeStopped))]
+    [RelayCommand(CanExecute = nameof(CanTimeBeResumed))]
     private void ResumeMatchClock()
-        => Match.IsTimeStopped = false;
+    {
+        Match.IsTimeStopped = false;
+        _timerService.Start();
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStarted))]
     private void StopMatchClock()
-        => Match.IsTimeStopped = true;
+    {
+        Match.IsTimeStopped = true;
+        _timerService.Stop();
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void SetClock() { }

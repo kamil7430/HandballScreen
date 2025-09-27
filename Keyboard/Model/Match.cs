@@ -31,6 +31,17 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 36_000
         }
     }
 
+    private short _halfNumber = 1;
+    public short HalfNumber
+    {
+        get => _halfNumber;
+        set
+        {
+            _halfNumber = value;
+            OnPropertyChanged(nameof(HalfNumber));
+        }
+    }
+
     private short _hostsPoints = 0;
     public short HostsPoints
     {
