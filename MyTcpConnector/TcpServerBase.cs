@@ -149,6 +149,9 @@ public abstract class TcpServerBase : IDisposable
     /// Abstract method containing the main communication logic for a connected client.
     /// This method runs concurrently for each client.
     /// </summary>
+    /// <remarks>
+    /// Always remember to close connections with clients properly! See <see cref="DisconnectClient(int)"/>.
+    /// </remarks>
     /// <param name="index">The index of the client in the <see cref="Clients"/> array.</param>
     /// <param name="client">The <see cref="TcpClient"/> to serve.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
@@ -170,6 +173,22 @@ public abstract class TcpServerBase : IDisposable
     }
 
     /// <summary>
+    /// Closes connection with client with provided index and sets appropriate <see cref="Clients"/> array cell to null.
+    /// </summary>
+    /// <remarks>
+    /// When overriding, always remember to set the appropriate <see cref="Clients"/> cell to null!
+    /// </remarks>
+    /// <param name="index"></param>
+    protected virtual void DisconnectClient(int index)
+    {
+        lock (ClientsArrayLock)
+        {
+            Clients[index]?.Close();
+            Clients[index] = null;
+        }
+    }
+
+    /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     /// <param name="disposing">
@@ -183,8 +202,10 @@ public abstract class TcpServerBase : IDisposable
             if (disposing)
             {
                 lock (ClientsArrayLock)
-                    foreach (var client in Clients)
-                        client?.Close();
+                {
+                    for (int i = 0; i < MaxClients; i++)
+                        DisconnectClient(i);
+                }
             }
             Disposed = true;
         }
