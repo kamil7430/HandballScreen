@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Keyboard.View" xmlns:viewmodel="clr-namespace:Keyboard.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:NewMatchWindowViewModel}"
         mc:Ignorable="d"
         Title="New Match Configuration" Height="300" Width="500"
-        Background="#FF333333">
+        Background="#FF333333"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>

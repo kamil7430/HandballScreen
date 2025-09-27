@@ -178,7 +178,7 @@ public abstract class TcpServerBase : IDisposable
     /// <remarks>
     /// When overriding, always remember to set the appropriate <see cref="Clients"/> cell to null!
     /// </remarks>
-    /// <param name="index"></param>
+    /// <param name="index">Index of the client to be disconnected.</param>
     protected virtual void DisconnectClient(int index)
     {
         lock (ClientsArrayLock)
