@@ -77,7 +77,10 @@ public partial class MainWindowViewModel : ObservableObject
         TimeSettingWindow window = new(Match);
         bool result = window.ShowDialog() ?? false;
         if (result)
+        {
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+            _decysecondsAtLastClockStop = Match.TimeInDecyseconds;
+        }
     }
 
     [RelayCommand]
