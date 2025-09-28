@@ -115,7 +115,10 @@ public partial class MainWindowViewModel : ObservableObject
         NewMatchWindow window = new(Match);
         bool result = window.ShowDialog() ?? false;
         if (result)
+        {
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+            _decysecondsAtLastClockStop = 0;
+        }
     }
 
     private void NotifyCommandsCanExecute()
