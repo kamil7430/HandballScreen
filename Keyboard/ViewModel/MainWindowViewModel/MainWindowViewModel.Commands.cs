@@ -36,7 +36,13 @@ public partial class MainWindowViewModel : ObservableObject
         => Match.HostsPoints--;
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
-    private void ManageHostsGoals() { }
+    private void ManageHostsGoals()
+    {
+        GoalsManagementWindow window = new(Match);
+        bool result = window.ShowDialog() ?? false;
+        if (result)
+            Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+    }
 
     [RelayCommand(CanExecute = nameof(CanAddUsedHostsTimeout))]
     private void AddUsedHostsTimeout()
@@ -84,7 +90,8 @@ public partial class MainWindowViewModel : ObservableObject
         => Match.GuestsPoints--;
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
-    private void ManageGuestsGoals() { }
+    private void ManageGuestsGoals()
+        => ManageHostsGoals();
 
     [RelayCommand(CanExecute = nameof(CanAddUsedGuestsTimeout))]
     private void AddUsedGuestsTimeout()
