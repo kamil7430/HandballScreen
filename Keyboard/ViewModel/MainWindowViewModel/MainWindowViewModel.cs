@@ -21,6 +21,8 @@ public partial class MainWindowViewModel
     }
 
     private readonly ITimerService _timerService;
+    private DateTime _lastClockResume;
+    private long _decysecondsAtLastClockStop;
 
     public MainWindowViewModel()
     {
@@ -31,9 +33,12 @@ public partial class MainWindowViewModel
 
     private void OnTimerTicked(DateTime dateTime)
     {
-        if (IsTimeStarted)
-            Match.TimeInDecyseconds++;
-        Match.CleanUpSuspensions();
+        if (IsTimeStopped)
+            return;
+
+        UpdateClock(dateTime);
+        CleanUpSuspensions();
+
         if (Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds
             || Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds * 2)
             EndHalf();
@@ -46,6 +51,14 @@ public partial class MainWindowViewModel
         StopMatchClock();
         UseSoundEffect();
     }
+
+    private void UpdateClock(DateTime dateTime)
+    {
+        Match.TimeInDecyseconds = (long)Math.Round((dateTime - _lastClockResume).TotalSeconds * 10) + _decysecondsAtLastClockStop;
+    }
+
+    private void CleanUpSuspensions()
+        => Match.CleanUpSuspensions();
 
     private void OnMatchPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {

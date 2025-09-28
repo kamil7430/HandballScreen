@@ -59,6 +59,7 @@ public partial class MainWindowViewModel : ObservableObject
     private void ResumeMatchClock()
     {
         Match.IsTimeStopped = false;
+        _lastClockResume = DateTime.Now;
         _timerService.Start();
     }
 
@@ -66,6 +67,7 @@ public partial class MainWindowViewModel : ObservableObject
     private void StopMatchClock()
     {
         Match.IsTimeStopped = true;
+        _decysecondsAtLastClockStop = Match.TimeInDecyseconds;
         _timerService.Stop();
     }
 
