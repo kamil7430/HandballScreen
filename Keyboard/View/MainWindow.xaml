@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Keyboard.View" 
         xmlns:viewmodel="clr-namespace:Keyboard.ViewModel" 
-        xmlns:local1="clr-namespace:Keyboard.View.Converter"
+        xmlns:local1="clr-namespace:Keyboard.View.Converter" 
+        xmlns:local2="clr-namespace:Keyboard.Model"
         d:DataContext="{d:DesignInstance Type=viewmodel:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Handball Match Keyboard" Height="600" Width="1200"
@@ -16,14 +17,41 @@
         <local1:ScoreToStringConverter x:Key="ScoreToString"/>
         <local1:ShortToLetterStringConverter x:Key="ShortToLetterString"/>
         <local1:InvertBooleanConverter x:Key="InvertBoolean"/>
+        <local1:SuspensionTimeLeftConverter x:Key="SuspensionTimeLeft"/>
 
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
+        <DataTemplate DataType="{x:Type local2:Suspension}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="#CCCCCC" BorderThickness="1" Padding="10">
+                    <TextBlock Text="{Binding PlayerNumber}" FontWeight="Bold" 
+                               FontSize="15" VerticalAlignment="Center" Foreground="White"/>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="#CCCCCC" BorderThickness="1" Padding="10">
+                    <TextBlock FontSize="15" VerticalAlignment="Center" Foreground="White">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource SuspensionTimeLeft}">
+                                <Binding Path="EndInMatchDecyseconds"/>
+                                <Binding Path="DataContext.Match.TimeInDecyseconds" 
+                                         ElementName="MainLayout"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="MainLayout">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -124,8 +152,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <!-- Lista kar -->
+
+                    <ItemsControl Grid.Column="0" ItemsSource="{Binding Match.HostsSuspensions}"
+                                  Margin="5"/>
+
+                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Match.GuestsSuspensions}"
+                                  Margin="5"/>
                 </Grid>
             </StackPanel>
             

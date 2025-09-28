@@ -33,6 +33,7 @@ public partial class MainWindowViewModel
     {
         if (IsTimeStarted)
             Match.TimeInDecyseconds++;
+        Match.CleanUpSuspensions();
         if (Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds
             || Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds * 2)
             EndHalf();

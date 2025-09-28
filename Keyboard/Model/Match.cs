@@ -69,9 +69,20 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
     public (short, short) ActualScore
         => (HostsPoints, GuestsPoints);
 
-    public ObservableCollection<Suspension> HostsSuspensions = [];
+    public ObservableCollection<Suspension> HostsSuspensions { get; set; } = [new(15, 100), new(12, 157), new(7, 66)];
 
-    public ObservableCollection<Suspension> GuestsSuspensions = [];
+    public ObservableCollection<Suspension> GuestsSuspensions { get; set; } = [new(43, 134)];
+
+    public void CleanUpSuspensions()
+    {
+        for (int i = HostsSuspensions.Count - 1; i >= 0; i--)
+            if (HostsSuspensions[i].EndInMatchDecyseconds < TimeInDecyseconds)
+                HostsSuspensions.RemoveAt(i);
+
+        for (int i = GuestsSuspensions.Count - 1; i >= 0; i--)
+            if (GuestsSuspensions[i].EndInMatchDecyseconds < TimeInDecyseconds)
+                GuestsSuspensions.RemoveAt(i);
+    }
 
     private short _hostsTimeoutsUsed = 0;
     public short HostsTimeoutsUsed
