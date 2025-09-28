@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Keyboard.Model;
 using Keyboard.View;
+using Keyboard.View.SuspensionsManagementWindow;
 
 namespace Keyboard.ViewModel;
 
@@ -53,7 +55,12 @@ public partial class MainWindowViewModel : ObservableObject
         => Match.HostsTimeoutsUsed--;
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
-    private void ManageHostsSuspensions() { }
+    private void ManageHostsSuspensions()
+    {
+        var suspensions = ManageSuspensions(Match.HostsSuspensions);
+        if (suspensions != null)
+            Match.HostsSuspensions = [.. suspensions];
+    }
 
     [RelayCommand(CanExecute = nameof(CanTimeBeResumed))]
     private void ResumeMatchClock()
@@ -80,6 +87,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
             _decysecondsAtLastClockStop = Match.TimeInDecyseconds;
+            CleanUpSuspensions();
         }
     }
 
@@ -107,7 +115,12 @@ public partial class MainWindowViewModel : ObservableObject
         => Match.GuestsTimeoutsUsed--;
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
-    private void ManageGuestsSuspensions() { }
+    private void ManageGuestsSuspensions()
+    {
+        var suspensions = ManageSuspensions(Match.GuestsSuspensions);
+        if (suspensions != null)
+            Match.GuestsSuspensions = [.. suspensions];
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void NewMatch()
@@ -119,6 +132,13 @@ public partial class MainWindowViewModel : ObservableObject
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
             _decysecondsAtLastClockStop = 0;
         }
+    }
+
+    private IEnumerable<Suspension>? ManageSuspensions(IEnumerable<Suspension> suspensions)
+    {
+        SuspensionsManagementWindow window = new(suspensions);
+        bool result = window.ShowDialog() ?? false;
+        return result ? window.ViewModel.Suspensions : null;
     }
 
     private void NotifyCommandsCanExecute()

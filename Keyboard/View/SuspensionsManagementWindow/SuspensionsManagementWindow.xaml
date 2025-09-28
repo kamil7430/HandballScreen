@@ -1,0 +1,42 @@
+﻿<Window x:Class="Keyboard.View.SuspensionsManagementWindow.SuspensionsManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Keyboard.View.SuspensionsManagementWindow" xmlns:suspensionsmanagementwindowviewmodel="clr-namespace:Keyboard.ViewModel.SuspensionsManagementWindowViewModel" d:DataContext="{d:DesignInstance Type=suspensionsmanagementwindowviewmodel:SuspensionsManagementWindowViewModel}"
+        mc:Ignorable="d"
+        Title="Suspensions Management" Height="300" Width="500"
+        Background="#FF333333"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox ItemsSource="{Binding Suspensions}" Grid.Column="0" Margin="5"/>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Button Grid.Row="0" Content="Dodaj"/>
+            <Button Grid.Row="1" Content="Edytuj"/>
+            <Button Grid.Row="2" Content="Usuń"/>
+            
+            <Button Grid.Row="4" Content="OK" Command="{Binding OKClickCommand}"/>
+            <Button Grid.Row="5" Content="Anuluj" Command="{Binding CancelClickCommand}"/>
+        </Grid>
+    </Grid>
+</Window>
