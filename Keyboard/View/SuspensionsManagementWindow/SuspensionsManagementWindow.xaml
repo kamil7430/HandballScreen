@@ -3,7 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Keyboard.View.SuspensionsManagementWindow" xmlns:suspensionsmanagementwindowviewmodel="clr-namespace:Keyboard.ViewModel.SuspensionsManagementWindowViewModel" d:DataContext="{d:DesignInstance Type=suspensionsmanagementwindowviewmodel:SuspensionsManagementWindowViewModel}"
+        xmlns:local="clr-namespace:Keyboard.View.SuspensionsManagementWindow" 
+        xmlns:suspensionsmanagementwindowviewmodel="clr-namespace:Keyboard.ViewModel.SuspensionsManagementWindowViewModel" 
+        xmlns:local1="clr-namespace:Keyboard.Model" 
+        xmlns:local2="clr-namespace:Keyboard.View.Converter"
+        d:DataContext="{d:DesignInstance Type=suspensionsmanagementwindowviewmodel:SuspensionsManagementWindowViewModel}"
         mc:Ignorable="d"
         Title="Suspensions Management" Height="300" Width="500"
         Background="#FF333333"
@@ -12,6 +16,18 @@
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
         </Style>
+
+        <local2:DecysecondsToTimeStringConverter x:Key="DecysecondsToTimeString"/>
+
+        <DataTemplate DataType="{x:Type local1:Suspension}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Nr zawodnika: "/>
+                <TextBlock Text="{Binding PlayerNumber}" FontWeight="Bold"/>
+                <TextBlock Text=", koniec kary: "/>
+                <TextBlock Text="{Binding EndInMatchDecyseconds, Converter={StaticResource DecysecondsToTimeString}}"
+                           FontWeight="Bold"/>
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
