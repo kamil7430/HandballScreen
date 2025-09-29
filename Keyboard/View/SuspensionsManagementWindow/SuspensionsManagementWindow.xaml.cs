@@ -11,10 +11,10 @@ namespace Keyboard.View.SuspensionsManagementWindow
     {
         public SuspensionsManagementWindowViewModel ViewModel { get; set; }
 
-        public SuspensionsManagementWindow(IEnumerable<Suspension> suspensions)
+        public SuspensionsManagementWindow(Match match, IEnumerable<Suspension> suspensions)
         {
             InitializeComponent();
-            DataContext = ViewModel = new SuspensionsManagementWindowViewModel(suspensions, this);
+            DataContext = ViewModel = new SuspensionsManagementWindowViewModel(match, suspensions, this);
         }
     }
 }

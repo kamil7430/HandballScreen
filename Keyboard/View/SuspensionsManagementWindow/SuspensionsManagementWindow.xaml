@@ -19,7 +19,8 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox ItemsSource="{Binding Suspensions}" Grid.Column="0" Margin="5"/>
+        <ListBox ItemsSource="{Binding Suspensions}" Grid.Column="0" Margin="5"
+                 SelectedItem="{Binding SelectedSuspension}"/>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -31,9 +32,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <Button Grid.Row="0" Content="Dodaj"/>
-            <Button Grid.Row="1" Content="Edytuj"/>
-            <Button Grid.Row="2" Content="Usuń"/>
+            <Button Grid.Row="0" Content="Dodaj" Command="{Binding AddClickCommand}"/>
+            <Button Grid.Row="1" Content="Edytuj" Command="{Binding EditClickCommand}"/>
+            <Button Grid.Row="2" Content="Usuń" Command="{Binding DeleteClickCommand}"/>
             
             <Button Grid.Row="4" Content="OK" Command="{Binding OKClickCommand}"/>
             <Button Grid.Row="5" Content="Anuluj" Command="{Binding CancelClickCommand}"/>

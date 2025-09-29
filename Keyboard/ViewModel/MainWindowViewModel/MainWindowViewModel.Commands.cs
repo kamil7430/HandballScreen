@@ -59,7 +59,10 @@ public partial class MainWindowViewModel : ObservableObject
     {
         var suspensions = ManageSuspensions(Match.HostsSuspensions);
         if (suspensions != null)
+        {
             Match.HostsSuspensions = [.. suspensions];
+            OnPropertyChanged(nameof(Match));
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanTimeBeResumed))]
@@ -119,7 +122,10 @@ public partial class MainWindowViewModel : ObservableObject
     {
         var suspensions = ManageSuspensions(Match.GuestsSuspensions);
         if (suspensions != null)
+        {
             Match.GuestsSuspensions = [.. suspensions];
+            OnPropertyChanged(nameof(Match));
+        }
     }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
@@ -136,7 +142,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     private IEnumerable<Suspension>? ManageSuspensions(IEnumerable<Suspension> suspensions)
     {
-        SuspensionsManagementWindow window = new(suspensions);
+        SuspensionsManagementWindow window = new(Match, suspensions);
         bool result = window.ShowDialog() ?? false;
         return result ? window.ViewModel.Suspensions : null;
     }
