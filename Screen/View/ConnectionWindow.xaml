@@ -1,0 +1,46 @@
+﻿<Window x:Class="Screen.View.ConnectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Screen.View" 
+        xmlns:viewmodel="clr-namespace:Screen.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ConnectionWindowViewModel}"
+        mc:Ignorable="d"
+        Title="Connection Management" Height="300" Width="500"
+        Background="#FF333333"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Adres IP:"/>
+
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding IpAddress}" Margin="30"/>
+
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Port:"/>
+
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="30" Text="{Binding Port}"/>
+
+        <Button Grid.Column="0" Grid.Row="2" Content="Anuluj" Margin="20"
+                Command="{Binding CancelClickCommand}"/>
+
+        <Button Grid.Column="1" Grid.Row="2" Content="OK" Margin="20"
+                Command="{Binding OKClickCommand}"/>
+    </Grid>
+</Window>

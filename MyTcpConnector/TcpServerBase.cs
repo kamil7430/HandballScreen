@@ -114,7 +114,7 @@ public abstract class TcpServerBase : IDisposable
                     Clients[index.Value] = handler;
                 }
                 await WelcomeClient(index.Value, handler);
-                _ = Task.Run(() => ServeClient(index.Value, handler));
+                _ = ServeClient(index.Value, handler);
             }
         }
         finally

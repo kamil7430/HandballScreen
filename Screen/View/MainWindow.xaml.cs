@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using Screen.ViewModel;
+using System.Windows;
 
-namespace Screen;
+namespace Screen.View;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
