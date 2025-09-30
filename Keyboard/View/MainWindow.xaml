@@ -18,6 +18,7 @@
         <local1:ShortToLetterStringConverter x:Key="ShortToLetterString"/>
         <local1:InvertBooleanConverter x:Key="InvertBoolean"/>
         <local1:SuspensionTimeLeftConverter x:Key="SuspensionTimeLeft"/>
+        <local1:IpAddressStringConverter x:Key="IpAddressString"/>
 
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5"/>
@@ -189,9 +190,12 @@
             </Grid.ColumnDefinitions>
             
             <TextBlock Grid.Column="0" Foreground="White">
-                Serwer włączony na adresie xxx.xxx.xxx.xxx:xxxxx.
-                <LineBreak/>
-                Status ekranu: Rozłączony.
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource IpAddressString}">
+                        <Binding Path="Server.IpAddressString"/>
+                        <Binding Path="Server.PortString"/>
+                    </MultiBinding>
+                </TextBlock.Text>
             </TextBlock>
 
             <Button Grid.Column="1"

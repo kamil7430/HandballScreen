@@ -1,6 +1,8 @@
 ﻿using Keyboard.Model;
+using Keyboard.Service.TcpMessages;
 using Keyboard.Service.Time;
 using System.ComponentModel;
+using System.Threading.Channels;
 
 namespace Keyboard.ViewModel;
 
@@ -23,12 +25,17 @@ public partial class MainWindowViewModel
     private readonly ITimerService _timerService;
     private DateTime _lastClockResume;
     private long _decysecondsAtLastClockStop;
+    private CancellationTokenSource _cancellationTokenSource;
 
     public MainWindowViewModel()
     {
         Match = new Match();
         _timerService = new WpfTimerService(100); // TODO: Injection
         _timerService.TimerTicked += OnTimerTicked;
+        _channel = Channel.CreateUnbounded<IUpdateMessage>();
+        _cancellationTokenSource = new CancellationTokenSource();
+        _serverCancellationToken = _cancellationTokenSource.Token;
+        Server = new(_channel, _serverCancellationToken);
     }
 
     private void OnTimerTicked(DateTime dateTime)
