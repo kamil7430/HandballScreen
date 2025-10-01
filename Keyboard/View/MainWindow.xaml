@@ -194,6 +194,7 @@
                     <MultiBinding Converter="{StaticResource IpAddressString}">
                         <Binding Path="Server.IpAddressString"/>
                         <Binding Path="Server.PortString"/>
+                        <Binding Path="Server.IsClientConnected"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>

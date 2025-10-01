@@ -1,13 +1,14 @@
 ﻿using Keyboard.Service.TcpMessages;
 using MyTcpConnector;
 using MyTcpConnector.Responses.Server;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Channels;
 
 namespace Keyboard.Service;
 
-public class ScreenManagerServer : TcpServerBase
+public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
 {
     private readonly Channel<IUpdateMessage> _channel;
 
@@ -17,10 +18,22 @@ public class ScreenManagerServer : TcpServerBase
     public string PortString
         => Port.ToString();
 
+    private bool _isClientConnected;
+    public bool IsClientConnected
+    {
+        get => _isClientConnected;
+        set
+        {
+            _isClientConnected = value;
+            OnPropertyChanged(nameof(IsClientConnected));
+        }
+    }
+
     public ScreenManagerServer(Channel<IUpdateMessage> channel, CancellationToken cancellationToken)
         : base(1, IPAddress.Any, 5050, cancellationToken)
     {
         _channel = channel;
+        IsClientConnected = false;
     }
 
     protected override async Task ServeClient(int index, TcpClient client)
@@ -38,13 +51,20 @@ public class ScreenManagerServer : TcpServerBase
         finally
         {
             DisconnectClient(index);
+            IsClientConnected = false;
         }
     }
 
     protected override async Task WelcomeClient(int index, TcpClient client)
     {
         using var stream = client.GetStream();
+        IsClientConnected = true;
         var response = new WelcomeResponse(true, "", index);
         await TcpHelper.SendAsync(stream, response, CancellationToken);
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }
