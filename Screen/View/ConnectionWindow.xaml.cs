@@ -1,5 +1,7 @@
-﻿using Keyboard.View;
+﻿using Keyboard.Service.TcpMessages;
+using Keyboard.View;
 using Screen.ViewModel;
+using System.Threading.Channels;
 using System.Windows;
 
 namespace Screen.View
@@ -11,10 +13,10 @@ namespace Screen.View
     {
         public ConnectionWindowViewModel ViewModel { get; set; }
 
-        public ConnectionWindow()
+        public ConnectionWindow(Channel<IUpdateMessage> channel, CancellationToken cancellationToken)
         {
             InitializeComponent();
-            DataContext = ViewModel = new ConnectionWindowViewModel(this);
+            DataContext = ViewModel = new ConnectionWindowViewModel(cancellationToken, channel, this);
         }
     }
 }

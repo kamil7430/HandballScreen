@@ -14,5 +14,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = ViewModel = new MainWindowViewModel();
+        Loaded += MainWindow_Loaded;
     }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        => ViewModel.Connect();
 }
