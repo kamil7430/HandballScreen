@@ -24,10 +24,12 @@ namespace Screen.View
             try
             {
                 await Client.ConnectAndRun();
+                MessageBox.Show("Połączenie nawiązane!");
                 DialogResult = true;
             }
             catch
             {
+                MessageBox.Show("Połączenie nieudane.");
                 DialogResult = false;
             }
             Close();
