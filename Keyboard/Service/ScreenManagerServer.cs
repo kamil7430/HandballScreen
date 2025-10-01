@@ -11,6 +11,7 @@ namespace Keyboard.Service;
 public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
 {
     private readonly Channel<IUpdateMessage> _channel;
+    private readonly Action _welcomeAction;
 
     public string IpAddressString
         => IpAddress.ToString();
@@ -29,10 +30,11 @@ public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
         }
     }
 
-    public ScreenManagerServer(Channel<IUpdateMessage> channel, CancellationToken cancellationToken)
+    public ScreenManagerServer(Channel<IUpdateMessage> channel, Action welcome, CancellationToken cancellationToken)
         : base(1, IPAddress.Any, 5050, cancellationToken)
     {
         _channel = channel;
+        _welcomeAction = welcome;
         IsClientConnected = false;
     }
 
@@ -61,6 +63,7 @@ public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
         IsClientConnected = true;
         var response = new WelcomeResponse(true, "", index);
         await TcpHelper.SendAsync(stream, response, CancellationToken);
+        _welcomeAction();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

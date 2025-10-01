@@ -15,4 +15,13 @@ public partial class MainWindowViewModel
         await Server.StartListener();
         OnPropertyChanged(nameof(Server));
     }
+
+    private async void EnqueueMessage(IUpdateMessage message)
+    {
+        if (Server.IsClientConnected)
+            await _channel.Writer.WriteAsync(message);
+    }
+
+    private void WelcomeClientScreen()
+        => EnqueueMessage(new UpdateWholeMatch(Match));
 }

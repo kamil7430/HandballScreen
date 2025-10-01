@@ -35,7 +35,7 @@ public partial class MainWindowViewModel
         _channel = Channel.CreateUnbounded<IUpdateMessage>();
         _cancellationTokenSource = new CancellationTokenSource();
         _serverCancellationToken = _cancellationTokenSource.Token;
-        Server = new(_channel, _serverCancellationToken);
+        Server = new(_channel, WelcomeClientScreen, _serverCancellationToken);
     }
 
     private void OnTimerTicked(DateTime dateTime)

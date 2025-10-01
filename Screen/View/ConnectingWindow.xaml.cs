@@ -32,7 +32,6 @@ namespace Screen.View
                 MessageBox.Show("Połączenie nieudane.");
                 DialogResult = false;
             }
-            Close();
         }
     }
 }

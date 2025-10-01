@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Keyboard.Model;
+using Keyboard.Service.TcpMessages;
 using Keyboard.View;
 using Keyboard.View.SuspensionsManagementWindow;
 
@@ -31,11 +32,18 @@ public partial class MainWindowViewModel : ObservableObject
 
     [RelayCommand]
     private void AddHostsGoal()
-        => Match.HostsPoints++;
+    {
+        Match.HostsPoints++;
+        EnqueueMessage(new UpdateScore(Match.HostsPoints, Match.GuestsPoints));
+    }
+
 
     [RelayCommand]
     private void RemoveHostsGoal()
-        => Match.HostsPoints--;
+    {
+        Match.HostsPoints--;
+        EnqueueMessage(new UpdateScore(Match.HostsPoints, Match.GuestsPoints));
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageHostsGoals()
@@ -43,16 +51,25 @@ public partial class MainWindowViewModel : ObservableObject
         GoalsManagementWindow window = new(Match);
         bool result = window.ShowDialog() ?? false;
         if (result)
+        {
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
+            EnqueueMessage(new UpdateScore(Match.HostsPoints, Match.GuestsPoints));
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanAddUsedHostsTimeout))]
     private void AddUsedHostsTimeout()
-        => Match.HostsTimeoutsUsed++;
+    {
+        Match.HostsTimeoutsUsed++;
+        EnqueueMessage(new UpdateTimeouts(Match.HostsTimeoutsUsed, Match.GuestsTimeoutsUsed));
+    }
 
     [RelayCommand(CanExecute = nameof(CanRemoveUsedHostsTimeout))]
     private void RemoveUsedHostsTimeout()
-        => Match.HostsTimeoutsUsed--;
+    {
+        Match.HostsTimeoutsUsed--;
+        EnqueueMessage(new UpdateTimeouts(Match.HostsTimeoutsUsed, Match.GuestsTimeoutsUsed));
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageHostsSuspensions()
@@ -62,6 +79,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             Match.HostsSuspensions = [.. suspensions];
             OnPropertyChanged(nameof(Match));
+            EnqueueMessage(new UpdateWholeMatch(Match));
         }
     }
 
@@ -71,6 +89,7 @@ public partial class MainWindowViewModel : ObservableObject
         Match.IsTimeStopped = false;
         _lastClockResume = DateTime.Now;
         _timerService.Start();
+        EnqueueMessage(new ResumeClockMessage(_lastClockResume));
     }
 
     [RelayCommand(CanExecute = nameof(IsTimeStarted))]
@@ -79,6 +98,7 @@ public partial class MainWindowViewModel : ObservableObject
         Match.IsTimeStopped = true;
         _decysecondsAtLastClockStop = Match.TimeInDecyseconds;
         _timerService.Stop();
+        EnqueueMessage(new StopClockMessage(Match.TimeInDecyseconds));
     }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
@@ -91,19 +111,27 @@ public partial class MainWindowViewModel : ObservableObject
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
             _decysecondsAtLastClockStop = Match.TimeInDecyseconds;
             CleanUpSuspensions();
+            EnqueueMessage(new UpdateWholeMatch(Match));
         }
     }
 
     [RelayCommand]
-    private void UseSoundEffect() { }
+    private void UseSoundEffect()
+        => EnqueueMessage(new UseSoundEffectMessage());
 
     [RelayCommand]
     private void AddGuestsGoal()
-        => Match.GuestsPoints++;
+    {
+        Match.GuestsPoints++;
+        EnqueueMessage(new UpdateScore(Match.HostsPoints, Match.GuestsPoints));
+    }
 
     [RelayCommand]
     private void RemoveGuestsGoal()
-        => Match.GuestsPoints--;
+    {
+        Match.GuestsPoints--;
+        EnqueueMessage(new UpdateScore(Match.HostsPoints, Match.GuestsPoints));
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageGuestsGoals()
@@ -111,11 +139,17 @@ public partial class MainWindowViewModel : ObservableObject
 
     [RelayCommand(CanExecute = nameof(CanAddUsedGuestsTimeout))]
     private void AddUsedGuestsTimeout()
-        => Match.GuestsTimeoutsUsed++;
+    {
+        Match.GuestsTimeoutsUsed++;
+        EnqueueMessage(new UpdateTimeouts(Match.HostsTimeoutsUsed, Match.GuestsTimeoutsUsed));
+    }
 
     [RelayCommand(CanExecute = nameof(CanRemoveUsedGuestsTimeout))]
     private void RemoveUsedGuestsTimeout()
-        => Match.GuestsTimeoutsUsed--;
+    {
+        Match.GuestsTimeoutsUsed--;
+        EnqueueMessage(new UpdateTimeouts(Match.HostsTimeoutsUsed, Match.GuestsTimeoutsUsed));
+    }
 
     [RelayCommand(CanExecute = nameof(IsTimeStopped))]
     private void ManageGuestsSuspensions()
@@ -125,6 +159,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             Match.GuestsSuspensions = [.. suspensions];
             OnPropertyChanged(nameof(Match));
+            EnqueueMessage(new UpdateWholeMatch(Match));
         }
     }
 
@@ -137,6 +172,7 @@ public partial class MainWindowViewModel : ObservableObject
         {
             Match = window.ViewModel.NewMatch ?? throw new ArgumentNullException();
             _decysecondsAtLastClockStop = 0;
+            EnqueueMessage(new UpdateWholeMatch(Match));
         }
     }
 

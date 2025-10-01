@@ -1,15 +1,20 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace Keyboard.Model;
 
 public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000)
     : NotifyPropertyChangedAbstract, ICloneable
 {
+    [JsonInclude]
     public short MaxTimeouts = maxTimeouts;
 
+    [JsonInclude]
     public int MaxMatchTimeInDecyseconds = maxMatchTimeInDecyseconds;
 
+    [JsonIgnore]
     private bool _isTimeStopped = true;
+    [JsonInclude]
     public bool IsTimeStopped
     {
         get => _isTimeStopped;
@@ -20,7 +25,9 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
         }
     }
 
+    [JsonIgnore]
     private long _timeInDecyseconds = 0;
+    [JsonInclude]
     public long TimeInDecyseconds
     {
         get => _timeInDecyseconds;
@@ -31,7 +38,9 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
         }
     }
 
+    [JsonIgnore]
     private short _halfNumber = 1;
+    [JsonInclude]
     public short HalfNumber
     {
         get => _halfNumber;
@@ -42,7 +51,9 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
         }
     }
 
+    [JsonIgnore]
     private short _hostsPoints = 0;
+    [JsonInclude]
     public short HostsPoints
     {
         get => _hostsPoints;
@@ -54,7 +65,9 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
         }
     }
 
+    [JsonIgnore]
     private short _guestsPoints = 0;
+    [JsonInclude]
     public short GuestsPoints
     {
         get => _guestsPoints;
@@ -66,11 +79,14 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
         }
     }
 
+    [JsonIgnore]
     public (short, short) ActualScore
         => (HostsPoints, GuestsPoints);
 
+    [JsonInclude]
     public ObservableCollection<Suspension> HostsSuspensions { get; set; } = [];
 
+    [JsonInclude]
     public ObservableCollection<Suspension> GuestsSuspensions { get; set; } = [];
 
     public void CleanUpSuspensions()
@@ -84,7 +100,9 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
                 GuestsSuspensions.RemoveAt(i);
     }
 
+    [JsonIgnore]
     private short _hostsTimeoutsUsed = 0;
+    [JsonInclude]
     public short HostsTimeoutsUsed
     {
         get => _hostsTimeoutsUsed;
@@ -95,10 +113,13 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
             OnPropertyChanged(nameof(HostsTimeoutsLeft));
         }
     }
+    [JsonIgnore]
     public short HostsTimeoutsLeft
         => (short)(MaxTimeouts - HostsTimeoutsUsed);
 
+    [JsonIgnore]
     private short _guestsTimeoutsUsed = 0;
+    [JsonInclude]
     public short GuestsTimeoutsUsed
     {
         get => _guestsTimeoutsUsed;
@@ -109,6 +130,7 @@ public class Match(short maxTimeouts = 3, int maxMatchTimeInDecyseconds = 18_000
             OnPropertyChanged(nameof(GuestsTimeoutsLeft));
         }
     }
+    [JsonIgnore]
     public short GuestsTimeoutsLeft
         => (short)(MaxTimeouts - GuestsTimeoutsUsed);
 
