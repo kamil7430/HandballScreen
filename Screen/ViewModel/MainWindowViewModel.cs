@@ -1,25 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Keyboard.Model;
-using Keyboard.Service.TcpMessages;
+using Screen.Messages;
 using Screen.View;
 using System.Threading.Channels;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Screen.ViewModel;
 
-public class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : ObservableObject
 {
-    public Match Match { get; set; }
+    [ObservableProperty]
+    private Match match;
     public ScreenManagerClient? Client { get; private set; }
+    public DateTime LastResumeTimestamp;
+    public long DecysecondsOnLastTimeStop;
     private readonly Channel<IUpdateMessage> _channel;
     private readonly CancellationTokenSource _cts;
+    public readonly Dispatcher Dispatcher;
 
     public MainWindowViewModel()
     {
         Match = new Match();
         _channel = Channel.CreateUnbounded<IUpdateMessage>();
         _cts = new CancellationTokenSource();
+        Dispatcher = Application.Current.Dispatcher;
+        _ = ReadChannelInfinitely(_cts.Token);
     }
+
+    private void HandleMessage(IUpdateMessage message)
+        => message.HandleSelf(this);
 
     public void Connect()
     {
@@ -32,5 +42,18 @@ public class MainWindowViewModel : ObservableObject
             return;
         }
         Client = window.ViewModel.Client;
+    }
+
+    private async Task ReadChannelInfinitely(CancellationToken cancellationToken)
+    {
+        try
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var msg = await _channel.Reader.ReadAsync(cancellationToken);
+                Dispatcher.Invoke(() => HandleMessage(msg));
+            }
+        }
+        catch { }
     }
 }

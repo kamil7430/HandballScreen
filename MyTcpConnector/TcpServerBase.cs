@@ -131,7 +131,7 @@ public abstract class TcpServerBase : IDisposable
     protected virtual async Task RefuseToConnect(TcpClient client)
     {
         var response = new WelcomeResponse(false, "Server is full!", -1);
-        using var stream = client.GetStream();
+        var stream = client.GetStream();
         await TcpHelper.SendAsync(stream, response, CancellationToken);
         client.Close();
     }

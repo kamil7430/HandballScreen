@@ -1,6 +1,6 @@
-﻿using Keyboard.Service.TcpMessages;
-using Keyboard.View;
+﻿using Keyboard.View;
 using Keyboard.ViewModel;
+using Screen.Messages;
 using Screen.View;
 using System.Net;
 using System.Threading.Channels;

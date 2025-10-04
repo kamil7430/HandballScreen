@@ -1,4 +1,4 @@
-﻿using Keyboard.Service.TcpMessages;
+﻿using Screen.Messages;
 using System.Net;
 using System.Threading.Channels;
 using System.Windows;
@@ -32,6 +32,7 @@ namespace Screen.View
                 MessageBox.Show("Połączenie nieudane.");
                 DialogResult = false;
             }
+            Close();
         }
     }
 }

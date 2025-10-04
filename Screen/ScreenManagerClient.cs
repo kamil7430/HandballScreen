@@ -1,5 +1,4 @@
-﻿using Keyboard.Service.TcpMessages;
-using MyTcpConnector;
+﻿using MyTcpConnector;
 using MyTcpConnector.Responses.Server;
 using Screen.Messages;
 using System.Net;
@@ -19,7 +18,7 @@ public class ScreenManagerClient : TcpClientBase
 
     protected override async Task CommunicateWithServer()
     {
-        using var stream = TcpClient.GetStream();
+        var stream = TcpClient.GetStream();
         try
         {
             var response = await TcpHelper.ReceiveAsync<WelcomeResponse>(stream, CancellationToken);
@@ -37,5 +36,6 @@ public class ScreenManagerClient : TcpClientBase
         {
             await _channel.Writer.WriteAsync(new ConnectionLostMessage(exception), CancellationToken);
         }
+        Dispose();
     }
 }

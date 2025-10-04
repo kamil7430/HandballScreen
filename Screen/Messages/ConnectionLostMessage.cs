@@ -1,4 +1,4 @@
-﻿using Keyboard.Service.TcpMessages;
+﻿using Screen.ViewModel;
 
 namespace Screen.Messages;
 
@@ -10,4 +10,7 @@ public class ConnectionLostMessage : IUpdateMessage
     {
         Exception = exception;
     }
+
+    public void HandleSelf(MainWindowViewModel viewModel)
+        => viewModel.Connect();
 }

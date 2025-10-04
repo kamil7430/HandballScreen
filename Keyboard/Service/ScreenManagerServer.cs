@@ -40,7 +40,7 @@ public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
 
     protected override async Task ServeClient(int index, TcpClient client)
     {
-        using var stream = client.GetStream();
+        var stream = client.GetStream();
         try
         {
             while (!CancellationToken.IsCancellationRequested
@@ -59,7 +59,7 @@ public class ScreenManagerServer : TcpServerBase, INotifyPropertyChanged
 
     protected override async Task WelcomeClient(int index, TcpClient client)
     {
-        using var stream = client.GetStream();
+        var stream = client.GetStream();
         IsClientConnected = true;
         var response = new WelcomeResponse(true, "", index);
         await TcpHelper.SendAsync(stream, response, CancellationToken);
