@@ -29,7 +29,10 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     private void HandleMessage(IUpdateMessage message)
-        => message.HandleSelf(this);
+    {
+        message.HandleSelf(this);
+        OnPropertyChanged(nameof(Match));
+    }
 
     public void Connect()
     {
