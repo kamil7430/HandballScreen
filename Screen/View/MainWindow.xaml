@@ -51,7 +51,7 @@
         </DataTemplate>
     </Window.Resources>
     
-    <Grid>
+    <Grid x:Name="MainLayout">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

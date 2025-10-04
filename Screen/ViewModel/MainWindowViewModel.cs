@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Keyboard.Model;
+using Keyboard.Service.Time;
 using Screen.Messages;
 using Screen.View;
 using System.Threading.Channels;
@@ -18,6 +19,7 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly Channel<IUpdateMessage> _channel;
     private readonly CancellationTokenSource _cts;
     public readonly Dispatcher Dispatcher;
+    public readonly ITimerService Timer;
 
     public MainWindowViewModel()
     {
@@ -25,8 +27,40 @@ public partial class MainWindowViewModel : ObservableObject
         _channel = Channel.CreateUnbounded<IUpdateMessage>();
         _cts = new CancellationTokenSource();
         Dispatcher = Application.Current.Dispatcher;
+        Timer = new WpfTimerService(100);
+        Timer.TimerTicked += OnTimerTicked;
         _ = ReadChannelInfinitely(_cts.Token);
     }
+
+    private void OnTimerTicked(DateTime dateTime)
+    {
+        if (Match.IsTimeStopped)
+            return;
+
+        UpdateClock(dateTime);
+        CleanUpSuspensions();
+
+        if (Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds
+            || Match.TimeInDecyseconds == Match.MaxMatchTimeInDecyseconds * 2)
+            EndHalf();
+    }
+
+    private void EndHalf()
+    {
+        if (Match.HalfNumber <= 1)
+            Match.HalfNumber++;
+        HandleMessage(new StopClockMessage(Match.TimeInDecyseconds));
+        HandleMessage(new UseSoundEffectMessage());
+    }
+
+    private void UpdateClock(DateTime dateTime)
+    {
+        Match.TimeInDecyseconds = (long)Math.Round((dateTime - LastResumeTimestamp).TotalSeconds * 10) + DecysecondsOnLastTimeStop;
+        OnPropertyChanged(nameof(Match));
+    }
+
+    private void CleanUpSuspensions()
+        => Match.CleanUpSuspensions();
 
     private void HandleMessage(IUpdateMessage message)
     {
