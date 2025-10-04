@@ -7,6 +7,7 @@ public record StopClockMessage(long DecysecondsOnClock) : IUpdateMessage
     public void HandleSelf(MainWindowViewModel viewModel)
     {
         viewModel.Match.TimeInDecyseconds = viewModel.DecysecondsOnLastTimeStop = DecysecondsOnClock;
+        viewModel.Match.IsTimeStopped = true;
         viewModel.Timer.Stop();
     }
 }

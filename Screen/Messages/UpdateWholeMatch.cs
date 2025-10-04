@@ -6,5 +6,8 @@ namespace Screen.Messages;
 public record UpdateWholeMatch(Match Match) : IUpdateMessage
 {
     public void HandleSelf(MainWindowViewModel viewModel)
-        => viewModel.Match = Match;
+    {
+        viewModel.Match = Match;
+        viewModel.DecysecondsOnLastTimeStop = Match.TimeInDecyseconds;
+    }
 }
